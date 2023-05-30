@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SignController {
 
     @RequestMapping("/sign_up")
-    public String signUp() {
+    public String goSignUp() {
         return "sign/sign_up";
     }
 
     @RequestMapping("/sign_in")
-    public String signIn() {
+    public String goSignIn() {
         return "sign/sign_in";
     }
 }
