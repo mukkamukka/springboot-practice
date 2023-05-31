@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import spring.feature.sign.dto.Member;
 import spring.feature.sign.mapper.MemberMapper;
+import spring.feature.sign.service.MemberService;
 
 import java.util.List;
 
@@ -13,11 +14,11 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    MemberMapper memberMapper;
+    MemberService memberService;
 
     @RequestMapping("/")
     public String goMain(Model model) {
-        List<Member> members = memberMapper.findAll();
+        List<Member> members = memberService.findAll();
         model.addAttribute("members", members);
         return "main";
     }
