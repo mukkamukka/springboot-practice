@@ -1,4 +1,4 @@
-package spring.feature.sign.dto;
+package spring.feature.sign.member;
 
 import lombok.*;
 

@@ -1,18 +1,16 @@
 package spring.feature.sign.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spring.feature.sign.dto.Member;
+import spring.feature.sign.member.Member;
 import spring.feature.sign.mapper.MemberMapper;
+import spring.feature.sign.member.MemberDTO;
 
 import java.util.List;
 
 @Service
 public class MemberService implements MemberMapper {
 
-    @Autowired
-    MemberMapper memberMapper;
+    private final MemberMapper memberMapper;
 
     public MemberService(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
@@ -21,6 +19,16 @@ public class MemberService implements MemberMapper {
     @Override
     public List<Member> findAll() {
         return memberMapper.findAll();
+    }
+
+    @Override
+    public Member findMember(String id) {
+        return memberMapper.findMember(id);
+    }
+
+    @Override
+    public MemberDTO findSignInMember(String id) {
+        return memberMapper.findSignInMember(id);
     }
 
     @Override
