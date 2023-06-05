@@ -1,13 +1,15 @@
 package spring.feature.sign.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import spring.feature.sign.member.Member;
 import spring.feature.sign.service.MemberService;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -21,13 +23,28 @@ public class MainController {
         this.memberService = memberService;
     }
 
-    @RequestMapping("/")
-    public String goMain(Model model, HttpSession session) {
+    @GetMapping("/main")
+    public String goMain(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
         if (session.getAttribute("login") != null) {
-            log.info(session.getAttribute("login").toString());
+            log.info("sessionId={}", session.getId());
+            log.info("getMaxInactiveInterval={}", session.getMaxInactiveInterval());
+            log.info("creationTime={}", new Date(session.getCreationTime()));
+            log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime()));
+            log.info("isNew={}", session.isNew());
         }
         List<Member> members = memberService.findAll();
         model.addAttribute("members", members);
         return "main";
+    }
+
+    @GetMapping("/logout")
+    public String logOut(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            log.info("로그아웃");
+        }
+        return "redirect:/";
     }
 }

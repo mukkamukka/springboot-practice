@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import spring.feature.sign.member.Member;
-import spring.feature.sign.member.MemberDTO;
 import spring.feature.sign.service.MemberService;
 
 @Controller
@@ -29,34 +28,34 @@ public class SignController {
     public String addMember(Member member) {
         if (member.getPassword().equals(member.getConfirmPassword())) {
             memberService.createUser(member);
+            log.info("회원가입 성공");
             return "redirect:/";
         } else {
             return "sign/sign_up";
         }
     }
 
-    @GetMapping("/signin")
+    @GetMapping("/")
     public String goSignIn() {
-
         return "sign/sign_in";
     }
 
-    @PostMapping("/signin")
-    public String signIn(MemberDTO memberDTO, HttpSession session, Model model) {
+    @PostMapping("/")
+    public String signIn(Member member, HttpSession session, Model model) {
         if (session.getAttribute("login") != null) {
-            session.removeAttribute("login");
+            session.invalidate();
         }
         try {
-            MemberDTO foundMember = memberService.findSignInMember(memberDTO.getUserId());
-            if (foundMember.getPassword().equals(memberDTO.getPassword())) {
-                Member member = memberService.findMember(memberDTO.getUserId());
-                session.setAttribute("login", member);
-                return "redirect:/";
+            Member foundMember = memberService.findMember(member.getUserId());
+            if (foundMember.getPassword().equals(member.getPassword())) {
+                session.setAttribute("login", member.getUserId());
+                log.info("로그인 성공");
+                return "redirect:/main";
             } else {
-                return "redirect:/signin";
+                return "redirect:/";
             }
         } catch (Exception e) {
-            return "redirect:/signin";
+            return "redirect:/";
         }
     }
 }

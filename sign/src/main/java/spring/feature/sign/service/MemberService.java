@@ -3,7 +3,6 @@ package spring.feature.sign.service;
 import org.springframework.stereotype.Service;
 import spring.feature.sign.member.Member;
 import spring.feature.sign.mapper.MemberMapper;
-import spring.feature.sign.member.MemberDTO;
 
 import java.util.List;
 
@@ -24,11 +23,6 @@ public class MemberService implements MemberMapper {
     @Override
     public Member findMember(String id) {
         return memberMapper.findMember(id);
-    }
-
-    @Override
-    public MemberDTO findSignInMember(String id) {
-        return memberMapper.findSignInMember(id);
     }
 
     @Override
