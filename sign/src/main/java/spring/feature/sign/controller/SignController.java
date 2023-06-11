@@ -27,7 +27,7 @@ public class SignController {
     @PostMapping("/signup")
     public String addMember(Member member) {
         if (member.getPassword().equals(member.getConfirmPassword())) {
-            memberService.createUser(member);
+            memberService.saveMember(member);
             log.info("회원가입 성공");
             return "redirect:/";
         } else {
